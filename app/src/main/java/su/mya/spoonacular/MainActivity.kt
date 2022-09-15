@@ -4,8 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -19,6 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import kotlinx.coroutines.launch
 import su.mya.spoonacular.ui.theme.RecipesResponse
 import su.mya.spoonacular.ui.theme.SpoonacularApi
@@ -44,6 +49,7 @@ class MainModel : ViewModel() {
     }
 }
 
+@OptIn(ExperimentalCoilApi::class)
 class MainActivity : ComponentActivity() {
     val model by viewModels<MainModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,9 +64,20 @@ class MainActivity : ComponentActivity() {
                     LazyVerticalGrid(columns = GridCells.Adaptive(164.dp), content = {
                         items(items = i) { item ->
                             Box(modifier = Modifier.fillMaxSize()) {
+                                Column(modifier = Modifier.fillMaxSize()) {
+
+                                    Text(text = item.title)
+                                    Image(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .padding(20.dp),
+                                        painter = rememberImagePainter(data = item.image),
+                                        contentDescription = null
+                                    )
+                                }
                             }
-                            Text(text = item.title)
                         }
+
                     })
                 }
             }
