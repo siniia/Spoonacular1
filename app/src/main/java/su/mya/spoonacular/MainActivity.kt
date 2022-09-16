@@ -14,11 +14,9 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -107,25 +105,38 @@ class MainActivity : ComponentActivity() {
                                         fontFamily = FontFamily.Monospace,
                                         style = TextStyle(
                                             shadow = Shadow(
-                                                color = Color.Magenta,
+                                                color = Color.Black,
                                                 offset = Offset(1.0f, 10.0f),
                                                 blurRadius = 5f
                                             )
                                         )
                                     )
+                                    val checkedState = remember { mutableStateOf(true) }
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                    ) {
+                                        Text(modifier = Modifier.weight(3f),
+                                            textAlign = TextAlign.End,
+                                            text = "healthy - ${item.veryHealthy}",
+                                            color = Color.White, fontFamily = FontFamily.Serif
+                                        )
+                                        Checkbox(modifier = Modifier.weight(2f),
+                                            checked = checkedState.value,
+                                            onCheckedChange = { checkedState.value = it }
+                                        )
+
+
+                                    }
+
                                     Text(
-                                        text = "vegetarian - ${item.vegetarian}",
-                                        color = Color.White,
-                                        fontFamily = FontFamily.SansSerif
-                                    )
-                                    Text(
-                                        text = "healthy - ${item.veryHealthy}",
-                                        color = Color.White, fontFamily = FontFamily.Serif
-                                    )
-                                    Text(
-                                        text = item.cookingMinutes.toString(),
+                                        text = "cookingMinutes${item.cookingMinutes}",
                                         color = Color.White, fontFamily = FontFamily.Cursive
                                     )
+                                    Text(
+                                        text = "price - ${item.pricePerServing}",
+                                        color = Color.White, fontFamily = FontFamily.Cursive
+                                    )
+
                                     Image(
                                         modifier = Modifier
                                             .fillMaxSize()

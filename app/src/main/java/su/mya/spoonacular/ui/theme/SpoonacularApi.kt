@@ -15,11 +15,11 @@ data class RecipesResponse(
     val vegetarian: String,
     val image: String,
     val veryHealthy: String,
-
-
+    val pricePerServing: String
 
 
 )
+
 val SpoonacularApi by lazy {
     Retrofit.Builder()
         .baseUrl("https://api.spoonacular.com/recipes/")
