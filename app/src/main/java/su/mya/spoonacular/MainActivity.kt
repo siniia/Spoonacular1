@@ -1,25 +1,39 @@
 package su.mya.spoonacular
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import coil.annotation.ExperimentalCoilApi
@@ -61,18 +75,64 @@ class MainActivity : ComponentActivity() {
                 if (i == null) {
                     Text(text = "kdmcjkw")
                 } else {
-                    LazyVerticalGrid(columns = GridCells.Adaptive(164.dp), content = {
+                    LazyVerticalGrid(columns = GridCells.Fixed(1), content = {
                         items(items = i) { item ->
-                            Box(modifier = Modifier.fillMaxSize()) {
-                                Column(modifier = Modifier.fillMaxSize()) {
+                            Box(modifier = Modifier
+                                .fillMaxSize()
+                                .padding(20.dp)
+                                .clip(RoundedCornerShape(18.dp))
+                                .background(color = Color.DarkGray)
+                                .clickable {
+                                    val webka: Uri = Uri.parse(item.image)
+                                    val inent = Intent(Intent.ACTION_VIEW, webka)
+                                    if (inent.resolveActivity(packageManager) != null) {
+                                        startActivity(inent)
+                                    }
+                                }) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize(),
 
-                                    Text(text = item.title)
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(20.dp),
+                                        color = Color.White,
+                                        fontStyle = FontStyle.Italic,
+                                        text = item.title,
+                                        fontSize = 24.sp,
+                                        textAlign = TextAlign.Center,
+                                        fontFamily = FontFamily.Monospace,
+                                        style = TextStyle(
+                                            shadow = Shadow(
+                                                color = Color.Magenta,
+                                                offset = Offset(1.0f, 10.0f),
+                                                blurRadius = 5f
+                                            )
+                                        )
+                                    )
+                                    Text(
+                                        text = "vegetarian - ${item.vegetarian}",
+                                        color = Color.White,
+                                        fontFamily = FontFamily.SansSerif
+                                    )
+                                    Text(
+                                        text = "healthy - ${item.veryHealthy}",
+                                        color = Color.White, fontFamily = FontFamily.Serif
+                                    )
+                                    Text(
+                                        text = item.cookingMinutes.toString(),
+                                        color = Color.White, fontFamily = FontFamily.Cursive
+                                    )
                                     Image(
                                         modifier = Modifier
                                             .fillMaxSize()
-                                            .padding(20.dp),
+                                            .requiredSize(300.dp)
+                                            .padding(0.dp),
                                         painter = rememberImagePainter(data = item.image),
-                                        contentDescription = null
+                                        contentDescription = null,
                                     )
                                 }
                             }

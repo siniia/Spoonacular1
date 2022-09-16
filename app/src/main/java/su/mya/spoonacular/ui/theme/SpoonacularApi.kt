@@ -13,7 +13,10 @@ data class RecipesResponse(
     val cookingMinutes: Int,
     val title: String,
     val vegetarian: String,
-    val image: String
+    val image: String,
+    val veryHealthy: String,
+
+
 
 
 )
